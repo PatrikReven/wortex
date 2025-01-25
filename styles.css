@@ -1,0 +1,738 @@
+/* Reset in osnove */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  cursor: url("slike/fancy-cursor.png"), auto;
+  user-select: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ====== Wortex Background (vijolična tema) ====== */
+body {
+  position: relative;
+  font-family: 'Baloo 2', 'Roboto', sans-serif;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* Glavna vijolična “Wortex” mešanica */
+  background:
+    url("slike/wortexbg.jpg") center/cover no-repeat,
+    linear-gradient(135deg, #8200ff 0%, #b300ff 40%, #ff00c3 100%);
+  background-blend-mode: overlay;
+  background-size: cover, 400% 400%;
+  animation:
+    wortexGradient 10s ease infinite,
+    wortexBgImageMove 20s ease-in-out infinite;
+}
+
+/* Ko vklopiš video ozadje, skrij jpg */
+body.video-active {
+  background: none;
+}
+
+/* Temnenje + blur */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes wortexGradient {
+  0%   { background-position: 0% 50%,  0% 50%; }
+  50%  { background-position: 100% 50%, 50% 50%; }
+  100% { background-position: 0% 50%,  0% 50%; }
+}
+@keyframes wortexBgImageMove {
+  0%   { background-position: 0% 50%,  0% 50%; }
+  50%  { background-position: 3% 52%,  100% 50%; }
+  100% { background-position: 0% 50%,  0% 50%; }
+}
+
+/* Container */
+.container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: flex-start;
+}
+
+/* Glavni Naslov z Blur animacijo */
+.blur-animation {
+  font-size: 3em;
+  color: transparent;
+  -webkit-text-stroke: 1px #ff00e1;
+  text-align: center;
+  margin-bottom: 15px;
+  animation: blurFadeIn 3s forwards;
+  white-space: nowrap;
+  text-shadow: 0 0 10px #ff00e1;
+}
+
+@keyframes blurFadeIn {
+  0% {
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+    color: #ffffff;
+  }
+}
+
+/* ======== Timer & Best Time (Z Wordex neon) ======== */
+.time-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+  padding: 6px 20px;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px #ff00ff;
+  animation: wortexNeonFlow 3s infinite ease-in-out alternate;
+}
+
+@keyframes wortexNeonFlow {
+  0% {
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff inset;
+  }
+  100% {
+    box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff inset;
+  }
+}
+
+.timer-display, .best-time {
+  font-size: 1.2em;
+  background: rgba(0,0,0,0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  transition: background 0.3s;
+  display: inline-block;
+  position: relative;
+  user-select: none;
+}
+
+.timer-display:hover,
+.best-time:hover {
+  background: rgba(0,0,0,0.5);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.7; }
+}
+
+.best-time {
+  color: #ff00c3;
+  font-size: 1.3em;
+  animation: neonPulse 2s infinite;
+}
+
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 5px #ff66ff, 0 0 10px #ff66ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #ff66ff, 0 0 20px #ff66ff;
+  }
+  100% {
+    text-shadow: 0 0 5px #ff66ff, 0 0 10px #ff66ff;
+  }
+}
+
+.animated-icon {
+  margin-right: 8px;
+  color: #ff00ff;
+  animation: floatIcon 3s infinite ease-in-out;
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+/* “Wortex Star” gumbi */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  z-index: 11;
+}
+
+.star-border {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  white-space: nowrap;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  border: none;
+  background: #ffffff;
+  color: #b300ff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  overflow: hidden;
+  user-select: none;
+}
+
+.star-border::before,
+.star-border::after {
+  content: "✦";
+  position: absolute;
+  color: #ff00ff;
+  animation: starBlink 2s linear infinite;
+  font-size: 1.2em;
+  opacity: 0.8;
+}
+
+.star-border::before {
+  top: -10px;
+  left: -10px;
+}
+.star-border::after {
+  bottom: -10px;
+  right: -10px;
+}
+
+@keyframes starBlink {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.4) rotate(180deg);
+    opacity: 0.4;
+  }
+}
+
+.star-border:hover {
+  background: #b300ff;
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.25);
+}
+
+.star-border:disabled {
+  background: #cccccc;
+  color: #666666;
+}
+
+/* Maze wrapper (Wortex Glow) */
+.maze-wrapper {
+  width: 700px;
+  height: 700px;
+  margin: 0 auto 20px auto;
+  overflow: hidden;
+  border: 5px solid #ffffff;
+  border-radius: 10px;
+  background: #000000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.glow-border {
+  animation: borderGlow 4s ease-in-out infinite;
+}
+@keyframes borderGlow {
+  0%   { box-shadow: 0 0 10px #ff00c3; }
+  50%  { box-shadow: 0 0 20px #ff66ff; }
+  100% { box-shadow: 0 0 10px #ff00c3; }
+}
+
+.maze-wrapper:hover svg#maze {
+  transform: rotateY(4deg) rotateX(3deg);
+}
+
+svg#maze {
+  width: 687px;
+  height: 687px;
+  background: #ffffff;
+  border-radius: 5px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Črne linije za stene */
+.maze-paths line {
+  stroke: #000000;
+  stroke-width: 2;
+}
+
+/* “Cheat” pot */
+#solution-path {
+  stroke-width: 4;
+  transition: stroke-dashoffset 2s linear, stroke 0.3s;
+}
+
+/* Igralčeva sled */
+#player-trail {
+  stroke: #00ff00;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Igralec krog */
+#player { }
+
+/* Slika (nekdanji iPhone -> Wortex) rahlo poskakuje */
+image {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bouncePhone 2s infinite alternate ease-in-out;
+}
+@keyframes bouncePhone {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+/* Spinner */
+.spinner {
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 10000;
+}
+.hidden {
+  display: none;
+}
+@keyframes spin {
+  0%   { transform: translate(-50%,-50%) rotate(0deg); }
+  100% { transform: translate(-50%,-50%) rotate(360deg); }
+}
+
+/* Reset message */
+.reset-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 1;
+  transition: opacity 1s ease;
+  z-index: 10001;
+}
+.reset-message.fade-out {
+  opacity: 0;
+}
+
+/* Mobilni gumbi */
+.mobile-controls {
+  display: none;
+}
+.mobile-controls button {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-drag: none;
+  width: 60px;
+  height: 60px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8200ff, #b300ff);
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s, background 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1001;
+}
+.mobile-controls button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s ease-out;
+}
+.mobile-controls button:active::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+.mobile-controls button:hover {
+  background: linear-gradient(135deg, #6a00cc, #9a00cc);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.4);
+}
+.mobile-controls button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.mobile-controls > div {
+  display: flex;
+  gap: 15px;
+}
+.mobile-controls button::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 80px;
+  height: 80px;
+  background: rgba(179, 0, 255, 0.2);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: -1;
+}
+.mobile-controls button:hover::after {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .mobile-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+  }
+  .mobile-controls button {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8em;
+  }
+  .mobile-controls button::after {
+    width: 100px;
+    height: 100px;
+  }
+  .mobile-controls > div {
+    flex-direction: row;
+  }
+  .maze-wrapper {
+    width: 90vw;
+    height: 90vw;
+    margin-bottom: 100px;
+  }
+  svg#maze {
+    width: 90vw;
+    height: 90vw;
+  }
+}
+
+/* “Dark theme” -> recimo: “Wortex Dark” */
+body.dark-theme {
+  background-color: #1e0028;
+  background-blend-mode: normal;
+  color: #e0e0e0;
+  transition: background-color 0.5s, color 0.5s;
+}
+body.dark-theme .maze-wrapper {
+  background: #1e1e1e;
+  border-color: #ff00ff;
+}
+body.dark-theme svg#maze {
+  background: #1e1e1e;
+}
+body.dark-theme .maze-paths line {
+  stroke: #bbbbbb;
+}
+body.dark-theme #solution-path {
+  stroke: #ff00ff;
+}
+body.dark-theme .star-border {
+  background: #2d2d2d;
+  color: #ff00ff;
+  box-shadow: 0 0 8px #ff00ff, 0 0 20px #ff00ff;
+}
+body.dark-theme .star-border:hover {
+  background: #ff00ff;
+  color: #ffffff;
+  box-shadow: 0 0 8px #ff00ff;
+}
+body.dark-theme .modal-content {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Modali */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.modal-content {
+  background: #fff;
+  color: #000;
+  padding: 30px;
+  border-radius: 10px;
+  width: 70%;
+  max-width: 600px;
+  text-align: center;
+  transform: scale(0.7);
+  transition: transform 0.4s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.modal-overlay.show .modal-content {
+  transform: scale(1);
+}
+.close-modal-btn {
+  margin-top: 20px;
+  background-color: #b300ff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.close-modal-btn:hover {
+  background-color: #9b00d9;
+}
+
+/* Win modal anim */
+.win-modal-content {
+  animation: floatWin 2s ease-in-out infinite alternate;
+}
+@keyframes floatWin {
+  0%   { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-5px) scale(1); }
+}
+.win-modal-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Typed effect (Navodila) */
+#typed-title {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin-bottom: 15px;
+  height: 2.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 4px solid #b300ff;
+  width: 0;
+  animation: typing 3s steps(40, end) forwards, blinkCursor 1s infinite step-end alternate;
+}
+@keyframes typing {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+@keyframes blinkCursor {
+  50% { border-color: transparent; }
+}
+
+/* Konfeti */
+#confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10003;
+  overflow: hidden;
+}
+.confetti {
+  width: 16px;
+  height: 16px;
+  animation: epicFall 3s linear forwards;
+  position: absolute;
+}
+@keyframes epicFall {
+  0%   { transform: translateY(-50px) rotate(0deg); }
+  50%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(1080deg); opacity: 0; }
+}
+
+/* Video ozadje */
+.video-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  background-color: black;
+  display: block;
+}
+
+/* Name Modal - Wortex */
+.name-modal-content {
+  animation: pulseModal 2s infinite;
+}
+@keyframes pulseModal {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px #ff00ff;
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px #b300ff;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px #ff00ff;
+  }
+}
+#player-name-input {
+  position: relative;
+  width: 80%;
+  padding: 10px 15px;
+  font-size: 1.1em;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+  background: linear-gradient(45deg, #b300ff, #ff00c3, #b300ff);
+  background-size: 600% 600%;
+  box-shadow: 0 0 10px rgba(179, 0, 255, 0.5);
+  animation: inputGlow 3s infinite, gradientShift 8s ease infinite;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  color: #ffffff;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes inputGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(179, 0, 255, 0.5);
+    border-color: #b300ff;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 195, 0.7);
+    border-color: #ff00c3;
+  }
+}
+.name-modal-content h2 {
+  animation: flashColor 5s infinite;
+  text-shadow: 0 0 10px #b300ff;
+}
+@keyframes flashColor {
+  0%   { color: #b300ff; text-shadow: 0 0 10px #b300ff; }
+  50%  { color: #ff00c3; text-shadow: 0 0 20px #ff00c3; }
+  100% { color: #b300ff; text-shadow: 0 0 10px #b300ff; }
+}
+
+/* Wave text (navodila) */
+.wave-text {
+  display: inline-block;
+}
+.wave-text span {
+  display: inline-block;
+  animation: waveAnimation 1.5s infinite;
+  transform-origin: bottom center;
+}
+@keyframes waveAnimation {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.wave-text span:nth-child(1) { animation-delay: 0s;   }
+.wave-text span:nth-child(2) { animation-delay: 0.1s; }
+.wave-text span:nth-child(3) { animation-delay: 0.2s; }
+
+/* Win modal "flash-win" */
+.flash-win {
+  animation: flashWinBg 2s infinite;
+}
+@keyframes flashWinBg {
+  0%   { box-shadow: 0 0 15px #ffea00, 0 0 30px #ffea00 inset; }
+  50%  { box-shadow: 0 0 30px #ffd700, 0 0 60px #ffd700 inset; }
+  100% { box-shadow: 0 0 15px #ffea00, 0 0 30px #ffea00 inset; }
+}
+
+/* Lotto-win tekst */
+.lotto-win {
+  font-size: 1.6em;
+  margin: 10px 0;
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffea00, 0 0 10px #ffea00;
+  animation: lottoBlink 2s infinite;
+  letter-spacing: 1.5px;
+}
+.lotto-win span {
+  color: #ff00e1;
+}
+@keyframes lottoBlink {
+  0%, 100% {
+    text-shadow: 0 0 5px #ffea00, 0 0 10px #ffea00;
+  }
+  50% {
+    text-shadow: 0 0 15px #fff000, 0 0 30px #fff000, 0 0 45px #ff00e1;
+    transform: scale(1.1);
+  }
+}
